@@ -6,7 +6,7 @@ RSpec.describe Wechatruby do
   end
 
   it "encrypt and decrypt" do
-    data = "the messages need to encrypt"
+    data = '[1,2,4]'
     iv = 'p2V6Xab2rS3cltGLhU6auA=='
     session_key = 'AvCwYZDUREcAvnBbSXGTUg=='
 
@@ -14,7 +14,11 @@ RSpec.describe Wechatruby do
     iv = Base64.encode64('p2V6Xab2rS3cltGLhU6auA==')
     session_key = Base64.encode64('AvCwYZDUREcAvnBbSXGTUg==')
 
-
-    expect( Wechatruby.decrypt(encrypted_data, session_key, iv) ).to eq(data)
+    expect( Wechatruby.decrypt(encrypted_data, session_key, iv) ).to eq(JSON.parse(data))
   end
+
+  it "get session" do
+    expect(Wechatruby.session("123")["errcode"]).to eq(40013)
+  end
+
 end
