@@ -6,8 +6,10 @@ require 'open-uri'
 
 module Wechatruby
   CIPHER_TYPE = "AES-128-CBC"
-  APPID = ''
-  SECRET = ''
+  APP = {
+    id: 'appid',
+    secret: 'secret'
+  }
   # encrypt data
   def self.encrypt(data, key, iv)
     aes = OpenSSL::Cipher::Cipher.new(CIPHER_TYPE)
@@ -31,7 +33,7 @@ module Wechatruby
   end
 
   def self.session(code)
-    wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{APPID}&secret=#{SECRET}&js_code=#{code}&grant_type=authorization_code"
+    wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{APP[:id]}&secret=#{APP[:secret]}&js_code=#{code}&grant_type=authorization_code"
 
     open(wx_url) do |resp|
       JSON.parse(resp.read)
