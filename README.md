@@ -22,17 +22,35 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Configure AppID and SecretID
 
-## Development
+```ruby
+Wechatruby::APP[:id] = 'appid'
+Wechatruby::APP[:secret] = 'secret'
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Wechatruby.session(code) return a hash object contain
+openid	string	用户唯一标识
+session_key	string	会话密钥
+unionid	string	用户在开放平台的唯一标识符，在满足 UnionID 下发条件的情况下会返回，详见 UnionID 机制说明。
+errcode	number	错误码
+errMsg	string	错误信息
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/wechatruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Wechatruby.decrypt encryptedData, return a hash object
+{
+    "openId": "OPENID",
+    "nickName": "NICKNAME",
+    "gender": GENDER,
+    "city": "CITY",
+    "province": "PROVINCE",
+    "country": "COUNTRY",
+    "avatarUrl": "AVATARURL",
+    "unionId": "UNIONID",
+    "watermark": {
+        "appid": "APPID",
+        "timestamp": TIMESTAMP
+    }
+}
 
 ## License
 
