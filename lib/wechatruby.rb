@@ -2,11 +2,15 @@
 require "wechatruby/version"
 require 'openssl'
 require 'base64'
-require 'json'
-require 'open-uri'
 require 'digest'
+
+require 'open-uri'
+require 'net/http'
+require "uri"
+
 require 'builder'
 require "rexml/document"
+require 'json'
 
 module Wechatruby
   CIPHER_TYPE = "AES-128-CBC"
@@ -47,6 +51,11 @@ module Wechatruby
   end
 
   class << self
+    # 随机字符,不超过32位
+    def nonce_str
+      Digest::MD5.hexdigest(Random.new_seed.to_s)
+    end
+
     ##
     # digest hash to sign, reference:
     # https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3
@@ -94,11 +103,9 @@ module Wechatruby
       else
         [nil, doc.root.elements['return_msg'].text]
       end
-
     end
 
   end
-
 end
 
 ##
