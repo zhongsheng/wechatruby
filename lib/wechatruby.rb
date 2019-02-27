@@ -22,7 +22,7 @@ module Wechatruby
   }
   # encrypt data
   def self.encrypt(data, key, iv)
-    aes = OpenSSL::Cipher::Cipher.new(CIPHER_TYPE)
+    aes = OpenSSL::Cipher.new(CIPHER_TYPE)
     aes.encrypt
     aes.key = key
     aes.iv = iv if iv != nil
@@ -35,7 +35,7 @@ module Wechatruby
     aes_iv  = Base64.decode64(iv)
     aes_cipher = Base64.decode64(encrypted_data)
 
-    aes = OpenSSL::Cipher::Cipher.new(CIPHER_TYPE)
+    aes = OpenSSL::Cipher.new(CIPHER_TYPE)
     aes.decrypt
     aes.key = aes_key
     aes.iv = aes_iv
@@ -82,6 +82,27 @@ module Wechatruby
       open(wx_url) do |resp|
         JSON.parse(resp.read)
       end
+    end
+
+    def get_user_info(code)
+      auth_data = get_access_token(code)
+      url = 'https://api.weixin.qq.com/sns/userinfo?access_token='
+      url += auth_data["access_token"]
+      url += "&openid=#{auth_data['openid']}"
+      url += '&lang=zh_CN'
+      open(url) do |resp|
+        JSON.parse(resp.read)
+      end
+    end
+
+    def code_redirect_url(url, scope='snsapi_userinfo')
+      {
+        appid: APP[:id]
+        redirect_uri: url,
+        response_type: 'code',
+        scope: scope,
+        state: 'wechatruby',
+      }.to_query
     end
 
     ##

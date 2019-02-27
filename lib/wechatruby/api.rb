@@ -1,3 +1,5 @@
 module Wechatruby
-  VERSION = "0.2.2"
+  module Api
+
+  end
 end

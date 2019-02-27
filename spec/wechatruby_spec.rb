@@ -7,12 +7,12 @@ RSpec.describe Wechatruby do
 
   it "encrypt and decrypt" do
     data = '[1,2,4]'
-    iv = 'p2V6Xab2rS3cltGLhU6auA=='
-    session_key = 'AvCwYZDUREcAvnBbSXGTUg=='
+    iv = "a\x03$Q]\x99\xA9\xFB\x80\xD0\xD3\xEB\x11P\xD8\xD6"
+    session_key = "\x9EC\xEC\xF4\xBE\xC3\xD7\x1E\x81\x80\xFAZ\x8A\xBC\xED\x90"
 
     encrypted_data = Base64.encode64(Wechatruby.encrypt(data, session_key, iv))
-    iv = Base64.encode64('p2V6Xab2rS3cltGLhU6auA==')
-    session_key = Base64.encode64('AvCwYZDUREcAvnBbSXGTUg==')
+    iv = Base64.encode64(iv)
+    session_key = Base64.encode64(session_key)
 
     expect( Wechatruby.decrypt(encrypted_data, session_key, iv) ).to eq(JSON.parse(data))
   end
