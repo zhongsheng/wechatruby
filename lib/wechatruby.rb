@@ -97,7 +97,7 @@ module Wechatruby
 
     def code_redirect_url(url, scope='snsapi_userinfo')
       {
-        appid: APP[:id]
+        appid: APP[:id],
         redirect_uri: url,
         response_type: 'code',
         scope: scope,
