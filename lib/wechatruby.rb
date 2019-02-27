@@ -96,13 +96,14 @@ module Wechatruby
     end
 
     def code_redirect_url(url, scope='snsapi_userinfo')
-      {
+      query = {
         appid: APP[:id],
         redirect_uri: url,
         response_type: 'code',
         scope: scope,
         state: 'wechatruby',
       }.to_query
+      return "https://open.weixin.qq.com/connect/oauth2/authorize?#{query}#wechat_redirect"
     end
 
     ##
