@@ -95,15 +95,27 @@ module Wechatruby
       end
     end
 
-    def code_redirect_url(url, scope='snsapi_userinfo')
+    def code_redirect_url(callback_url, scope='snsapi_userinfo')
       query = {
         appid: APP[:id],
-        redirect_uri: url,
+        redirect_uri: callback_url,
         response_type: 'code',
         scope: scope,
         state: 'wechatruby',
       }.to_query
       return "https://open.weixin.qq.com/connect/oauth2/authorize?#{query}#wechat_redirect"
+    end
+
+    def qr_code_url(callback_url)
+      query = {
+        appid: APP[:id],
+        redirect_uri: callback_url,
+        response_type: 'code',
+        scope: 'snsapi_login',
+        state: Time.now.to_i,
+      }.to_query
+
+      return "https://open.weixin.qq.com/connect/qrconnect?#{query}#wechat_redirect"
     end
 
     ##
