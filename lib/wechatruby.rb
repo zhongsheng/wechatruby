@@ -8,9 +8,12 @@ require 'open-uri'
 require 'net/http'
 require "uri"
 
+
 require 'builder'
 require "rexml/document"
 require 'json'
+
+require 'wechatruby/client'
 
 module Wechatruby
   CIPHER_TYPE = "AES-128-CBC"
@@ -51,6 +54,11 @@ module Wechatruby
   end
 
   class << self
+
+    def rails_client
+      @client ||= Wechatruby::Client.new(Rails.application.credentials.dig(:wechat, :mp))
+    end
+
     # 随机字符,不超过32位
     def nonce_str
       Digest::MD5.hexdigest(Random.new_seed.to_s)
