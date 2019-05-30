@@ -9,19 +9,33 @@ module Wechatruby
       @key = options[:key]
     end
 
+    def qr_code_url(callback_url)
+      query = {
+        appid: id,
+        redirect_uri: callback_url,
+        response_type: 'code',
+        scope: 'snsapi_login',
+        state: 'qr_code',
+      }.to_query
+
+      return "https://open.weixin.qq.com/connect/qrconnect?#{query}#wechat_redirect"
+    end
+
     def code_request_url(callback_url, scope='snsapi_userinfo')
       query = {
         appid: self.id,
         redirect_uri: callback_url,
         response_type: 'code',
         scope: scope,
-        state: 'wechatruby',
+        state: 'web_code',
       }.to_query
       return "https://open.weixin.qq.com/connect/oauth2/authorize?#{query}#wechat_redirect"
     end
 
     def get_user_info(code)
       auth_data = access_token(code)
+      pp '-----------------------'
+      pp auth_data
       query = {
         access_token: auth_data['access_token'],
         openid: auth_data['openid'],

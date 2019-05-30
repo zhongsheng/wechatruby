@@ -55,8 +55,12 @@ module Wechatruby
 
   class << self
 
+    def app_client
+      @app_client ||= Wechatruby::Client.new(Rails.application.credentials.dig(:wechat_web_app))
+    end
+
     def rails_client
-      @client ||= Wechatruby::Client.new(Rails.application.credentials.dig(:wechat, :mp))
+      @client ||= Wechatruby::Client.new(Rails.application.credentials.dig(:wechat_mp))
     end
 
     # 随机字符,不超过32位
