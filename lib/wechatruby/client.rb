@@ -47,6 +47,16 @@ module Wechatruby
       end
     end
 
+    # 用于小程序端获取openid
+    def get_session_by(code)
+      wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{self.id}&secret=#{self.secret}&js_code=#{code}&grant_type=authorization_code"
+
+      open(wx_url) do |resp|
+        JSON.parse(resp.read)
+      end
+    end
+
+
     def prepay_params(code, options)
       # 第一步: 取得openid
       #--------------------
