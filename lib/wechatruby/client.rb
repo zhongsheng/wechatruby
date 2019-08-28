@@ -59,7 +59,7 @@ module Wechatruby
     # js sdk config
     #
     # TODO cache access_token
-    def web_jsapi_params(url, *args)
+    def web_jsapi_params(url, debug, *args)
       token = jsapi_access_token['access_token']
       pp token
       ticket = jsapi_ticket(token)
@@ -79,7 +79,7 @@ module Wechatruby
       pp sign.join('&')
 
       return {
-        debug: true,
+        debug: debug,
         appId: self.id,
         timestamp: jsapi_params[:timestamp],
         nonceStr: jsapi_params[:noncestr],
