@@ -7,6 +7,7 @@ require 'digest'
 require 'open-uri'
 require 'net/http'
 require "uri"
+require 'active_support/all'
 
 
 require 'builder'
@@ -16,10 +17,11 @@ require 'json'
 require 'wechatruby/client'
 
 module Wechatruby
+
   CIPHER_TYPE = "AES-128-CBC"
   APP = {
-    id: '公众号appid',
-    secret: '公众号api密匙',
+    id: 'appid',
+    secret: 'api',
     mch_id: '商户支付平台id',
     key: '商户支付平台设置的api密匙', # https://pay.weixin.qq.com/index.php/core/cert/api_cert
   }
