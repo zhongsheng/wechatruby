@@ -9,7 +9,24 @@ module Wechatruby
     include Mp_Api
     attr_accessor :id, :secret, :mch_id, :key
     class << self
-      attr_accessor :token, :expired_at
+      # 缓存access_token
+      def token(app_id, params=nil)
+        @token ||= {}
+        # set params
+        if params
+          @token[app_id] = params
+          @token[app_id]['expired_at'] = Time.now + params['expires_in']
+          pp @token
+          return true
+        end
+        return nil unless @token[app_id]
+        if @token[app_id]['expired_at'] > Time.now
+          return @token[app_id]['access_token']
+        else
+          return nil
+        end
+      end # token ending
+
     end
 
     def initialize(options)

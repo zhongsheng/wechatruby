@@ -39,9 +39,9 @@ module Wechatruby
     # 正常返回: {"access_token":"ACCESS_TOKEN","expires_in":7200}
     # 说明文档 https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
     def jsapi_access_token
-      if Client.token &&  Client.expired_at > Time.now
+      if Client.token(self.id)
         pp 'Use cached token'
-        return Client.token
+        return Client.token(self.id)
       end
       query = {
         appid: self.id,
@@ -55,9 +55,11 @@ module Wechatruby
       end
       pp 'Got access token from wechat server'
       pp result
-      Client.expired_at = Time.now + result['expires_in']
-      Client.token = result['access_token']
-      return Client.token
+      unless result['access_token']
+        raise 'Cant get access_token'
+      end
+      Client.token(self.id, result)
+      return Client.token(self.id)
     end
 
     # {
