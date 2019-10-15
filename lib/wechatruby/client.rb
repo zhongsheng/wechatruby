@@ -44,6 +44,7 @@ module Wechatruby
     end
 
 
+    # web app 扫码登录
     def qr_code_url(callback_url)
       query = {
         appid: id,
@@ -56,13 +57,14 @@ module Wechatruby
       return "https://open.weixin.qq.com/connect/qrconnect?#{query}#wechat_redirect"
     end
 
+    # 公众号验证登录
     def code_request_url(callback_url, scope='snsapi_userinfo')
       query = {
         appid: self.id,
         redirect_uri: callback_url,
         response_type: 'code',
         scope: scope,
-        state: 'web_code',
+        state: 'mp_code',
       }.to_query
       return "https://open.weixin.qq.com/connect/oauth2/authorize?#{query}#wechat_redirect"
     end

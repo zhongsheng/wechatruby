@@ -1,6 +1,23 @@
 # coding: utf-8
 module Wechatruby
+  # 公众号号api
   module Mp_Api
+
+
+    # openid 是否订阅
+    def subscribed?(openid)
+      query = {
+        access_token: jsapi_access_token,
+        openid: openid,
+        lang: 'zh_CN'
+      }.to_query
+      url = "https://api.weixin.qq.com/cgi-bin/user/info?#{query}"
+      data = open(url) do |resp|
+        JSON.parse(resp.read)
+      end
+
+      data['subscribe'].to_i != 0
+    end
 
     # js sdk config
     #
