@@ -1,5 +1,4 @@
 # coding: utf-8
-require "wechatruby/version"
 require 'openssl'
 require 'base64'
 require 'digest'
@@ -13,8 +12,12 @@ require 'active_support/all'
 require 'builder'
 require "rexml/document"
 require 'json'
+require "zeitwerk"
+loader = Zeitwerk::Loader.for_gem
+loader.setup # ready!
 
-require 'wechatruby/client'
+# require "wechatruby/version"
+# require 'wechatruby/client'
 
 module Wechatruby
 

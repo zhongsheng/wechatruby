@@ -1,9 +1,10 @@
 PATH
   remote: .
   specs:
-    wechatruby (0.2.6)
+    wechatruby (0.2.8)
       builder
       rest-client
+      zeitwerk
 
 GEM
   remote: https://rubygems.org/

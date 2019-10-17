@@ -1,12 +1,12 @@
 # coding: utf-8
-require 'wechatruby/pay'
-require 'wechatruby/assets'
-require 'wechatruby/messages'
-require 'wechatruby/mp_api'
+# require 'wechatruby/pay'
+# require 'wechatruby/assets'
+# require 'wechatruby/messages'
+# require 'wechatruby/mp_api'
 module Wechatruby
   class Client
     include Pay
-    include Mp_Api
+    include MpApi
     attr_accessor :id, :secret, :mch_id, :key
     class << self
       # 缓存access_token

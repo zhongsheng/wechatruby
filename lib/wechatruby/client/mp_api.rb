@@ -1,8 +1,6 @@
 # coding: utf-8
-module Wechatruby
+module Wechatruby::Client::MpApi
   # 公众号号api
-  module Mp_Api
-
 
     # openid 是否订阅
     def subscribed?(openid)
@@ -56,9 +54,9 @@ module Wechatruby
     # 正常返回: {"access_token":"ACCESS_TOKEN","expires_in":7200}
     # 说明文档 https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
     def jsapi_access_token
-      if Client.token(self.id)
-        pp 'Use cached token'
-        return Client.token(self.id)
+      if ::Wechatruby::Client.token(self.id)
+        pp '######### debug:: Use cached token.'
+        return ::Wechatruby::Client.token(self.id)
       end
       query = {
         appid: self.id,
@@ -75,8 +73,8 @@ module Wechatruby
       unless result['access_token']
         raise 'Cant get access_token'
       end
-      Client.token(self.id, result)
-      return Client.token(self.id)
+      ::Wechatruby::Client.token(self.id, result)
+      return ::Wechatruby::Client.token(self.id)
     end
 
     # {
@@ -96,5 +94,4 @@ module Wechatruby
     end
 
 
-  end
 end

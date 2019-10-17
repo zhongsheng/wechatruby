@@ -1,9 +1,6 @@
 # coding: utf-8
-require 'rest-client'
-require 'pry'
-require 'json'
-
 # 素材管理
+require 'rest-client'
 module Wechatruby
   class Assets
     UPLOAD_URL = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%{token}&type=%{type}"
@@ -19,7 +16,7 @@ module Wechatruby
     def tmp_add(type,file_path)
       url = sprintf(UPLOAD_URL, {token: @token, type: type})
       pp url
-      resp = RestClient.post( url, :media=> File.new(file_path, 'rb'))
+      resp = ::RestClient.post( url, :media=> File.new(file_path, 'rb'))
       JSON.parse resp.body
     end
 

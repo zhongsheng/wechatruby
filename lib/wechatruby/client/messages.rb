@@ -4,8 +4,8 @@ require 'pry'
 require 'json'
 
 # 素材管理
-module Wechatruby
-  class Messages
+class Wechatruby::Client::Messages
+
     SEND_URL = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%{token}"
     TEMPLATE_URL = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%{token}'
     def initialize(token)
@@ -14,7 +14,7 @@ module Wechatruby
 
     # 发送图片给客户
     # {"errcode"=>0, "errmsg"=>"ok"}
-    # 
+    #
     def send_image(user_id, media_id)
       url = sprintf(SEND_URL, {token: @token})
       pp url
@@ -37,5 +37,4 @@ module Wechatruby
       JSON.parse resp.body
     end
 
-  end
 end
