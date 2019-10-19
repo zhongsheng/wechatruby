@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wechatruby (0.2.9)
+    wechatruby (0.3.0)
       builder
       rest-client
       zeitwerk
