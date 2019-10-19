@@ -15,11 +15,13 @@ module Wechatruby
         # set params
         if params
           @token[app_id] = params
-          @token[app_id]['expired_at'] = Time.now + params['expires_in']
+          @token[app_id]['expired_at'] = Time.now + params['expires_in'] - 1000
           pp @token
           return true
         end
-        return nil unless @token[app_id]
+        return nil if !@token[app_id]
+        pp 'check token-------------------------'
+        pp @token
         if @token[app_id]['expired_at'] > Time.now
           return @token[app_id]['access_token']
         else

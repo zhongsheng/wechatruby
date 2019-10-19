@@ -8,8 +8,9 @@ RSpec.describe Wechatruby do
                            })
   }
   it "can get token" do
-    pp wechat.jsapi_access_token
+    params = wechat.jsapi_access_token
     expect(wechat.jsapi_access_token).not_to be nil
+    # expect(Wechatruby::Client.token(wechat.id, params ) ).to be false
   end
 
   it 'can get media id' do
@@ -22,7 +23,7 @@ RSpec.describe Wechatruby do
   end
 
   it 'can send template messages' do
-    params = 
+    params =
       {
         touser: 'osip61TslXFOq134R4pc2tI9qQrk',
         # template_id: "uQtXKW0Uz-STOVXb2ra-SYYrPpzoeshgbahX4Kg2F9Y",
