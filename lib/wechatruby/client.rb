@@ -100,44 +100,19 @@ module Wechatruby
 
 
     private
-    ##
-    # 发送参数参考
-    # https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
-    # 发送xml, 返回xml, 解析获取 prepay_id, 用于传送给 wx jsapi
-    def order(params)
-      xml = params.to_xml
-      uri = URI( 'https://api.mch.weixin.qq.com/pay/unifiedorder' )
-      req = Net::HTTP::Post.new( uri )
-      req.body = xml
-      req.content_type = 'multipart/form-data'
-      res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) {|http|
-        http.request(req)
-      }
-      doc = REXML::Document.new res.body
-      if doc.root.elements['prepay_id']
-        [doc.root.elements['prepay_id'].text, 'success']
-      else
-        [nil, doc.root.elements['return_msg'].text]
-      end
-    end
 
 
-    # 随机字符,不超过32位
-    def nonce_str
-      Digest::MD5.hexdigest(Random.new_seed.to_s)
-    end
-
-    ##
-    # digest hash to sign, reference:
-    # https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3
-    def sign_digest(params)
-      sign = ''
-      params.sort.each { |p|
-        sign << p[0].to_s + '=' + p[1].to_s + '&'
-      }
-      sign << "key=#{self.key}"
-      return Digest::MD5.hexdigest(sign).upcase
-    end
+    # ##
+    # # digest hash to sign, reference:
+    # # https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3
+    # def sign_digest(params)
+    #   sign = ''
+    #   params.sort.each { |p|
+    #     sign << p[0].to_s + '=' + p[1].to_s + '&'
+    #   }
+    #   sign << "key=#{self.key}"
+    #   return Digest::MD5.hexdigest(sign).upcase
+    # end
 
 
     # 登录验证token

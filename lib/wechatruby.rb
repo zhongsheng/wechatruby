@@ -70,17 +70,6 @@ module Wechatruby
       Digest::MD5.hexdigest(Random.new_seed.to_s)
     end
 
-    ##
-    # digest hash to sign, reference:
-    # https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3
-    def sign_digest(params)
-      sign = ''
-      params.sort.each { |p|
-        sign << p[0].to_s + '=' + p[1].to_s + '&'
-      }
-      sign << "key=#{APP[:key]}"
-      return Digest::MD5.hexdigest(sign).upcase
-    end
 
     ##
     # 返回json, 参考
