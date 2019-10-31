@@ -8,16 +8,13 @@ require 'net/http'
 require "uri"
 require 'active_support/all'
 
-
+require 'rest-client'
 require 'builder'
 require "rexml/document"
 require 'json'
 require "zeitwerk"
 loader = Zeitwerk::Loader.for_gem
 loader.setup # ready!
-
-# require "wechatruby/version"
-# require 'wechatruby/client'
 
 module Wechatruby
 

@@ -44,6 +44,9 @@ module Wechatruby
     def assets
       Assets.new(jsapi_access_token)
     end
+    def menu
+      Menu.new(jsapi_access_token)
+    end
 
 
     # web app 扫码登录

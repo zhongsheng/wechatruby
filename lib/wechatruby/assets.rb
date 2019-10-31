@@ -1,6 +1,6 @@
 # coding: utf-8
 # 素材管理
-require 'rest-client'
+
 module Wechatruby
   class Assets
     UPLOAD_URL = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%{token}&type=%{type}"
