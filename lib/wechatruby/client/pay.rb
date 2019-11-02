@@ -69,12 +69,22 @@ module Wechatruby::Client::Pay
     return Digest::MD5.hexdigest(sign).upcase
   end
 
+  def to_xml(params)
+    x_builder = Builder::XmlMarkup.new
+    xml = x_builder.xml { |x|
+      params.each { |p|
+        eval("x.#{p[0].to_s} '#{p[1]}'")
+      }
+    }
+    return xml
+  end
+
   ##
   # 发送参数参考
   # https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
   # 发送xml, 返回xml, 解析获取 prepay_id, 用于传送给 wx jsapi
   def order(params)
-    xml = params.to_xml
+    xml = to_xml(params)
     uri = URI( 'https://api.mch.weixin.qq.com/pay/unifiedorder' )
     req = Net::HTTP::Post.new( uri )
     req.body = xml

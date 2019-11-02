@@ -145,19 +145,19 @@ module Wechatruby
   end
 end
 
-##
-# A simple monkey patch to Hash class
-#  {key: 'value'}.to_xml
-#  #=> <xml><key>value</key></xml>
-class Hash
-  def to_xml
-    params = self
-    x_builder = Builder::XmlMarkup.new
-    xml = x_builder.xml { |x|
-      params.each { |p|
-        eval("x.#{p[0].to_s} '#{p[1]}'")
-      }
-    }
-    return xml
-  end
-end
+# ##
+# # A simple monkey patch to Hash class
+# #  {key: 'value'}.to_xml
+# #  #=> <xml><key>value</key></xml>
+# class Hash
+#   def to_xml
+#     params = self
+#     x_builder = Builder::XmlMarkup.new
+#     xml = x_builder.xml { |x|
+#       params.each { |p|
+#         eval("x.#{p[0].to_s} '#{p[1]}'")
+#       }
+#     }
+#     return xml
+#   end
+# end
