@@ -20,7 +20,6 @@ module Wechatruby::Client::MpApi
 
   # js sdk config
   #
-  # TODO cache access_token
   def web_jsapi_params(url, debug, *args)
     token = jsapi_access_token
     pp token
@@ -89,6 +88,9 @@ module Wechatruby::Client::MpApi
 
     result = open(wx_url) do |resp|
       JSON.parse(resp.read)
+    end
+    if result['errcode'] != 0
+      raise Wechatruby::TicketError, result['errmsg']
     end
     pp result
     return result['ticket']

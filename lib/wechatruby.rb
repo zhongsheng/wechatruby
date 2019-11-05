@@ -18,7 +18,11 @@ loader.setup # ready!
 
 module Wechatruby
 
+  class TicketError < StandardError
+  end
+
   CIPHER_TYPE = "AES-128-CBC"
+
   # APP = {
   #   id: 'appid',
   #   secret: 'api',
@@ -47,6 +51,7 @@ module Wechatruby
     JSON.parse(aes.update(aes_cipher) + aes.final)
   end
 
+  # TODO 小程序会话使用
   # def self.session(code)
   #   wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{APP[:id]}&secret=#{APP[:secret]}&js_code=#{code}&grant_type=authorization_code"
 

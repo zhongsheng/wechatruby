@@ -17,8 +17,8 @@ RSpec.describe Wechatruby do
     expect( Wechatruby.decrypt(encrypted_data, session_key, iv) ).to eq(JSON.parse(data))
   end
 
-  it "get session" do
-    expect(Wechatruby.session("123")["errcode"]).to eq(40013)
-  end
+  # it "get session" do
+  #   expect(Wechatruby.session("123")["errcode"]).to eq(40013)
+  # end
 
 end

@@ -77,4 +77,8 @@ RSpec.describe Wechatruby do
     expect(result['errcode']).to be 0
   end
 
+  it 'raise ticket_error exception' do
+    expect{wechat.jsapi_ticket('123')}.to raise_error(Wechatruby::TicketError)
+  end
+
 end
