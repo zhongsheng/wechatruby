@@ -23,7 +23,14 @@ module Wechatruby::Client::MpApi
   def web_jsapi_params(url, debug, *args)
     token = jsapi_access_token
     pp token
-    ticket = jsapi_ticket(token)
+    begin
+      ticket = jsapi_ticket(token)
+    rescue Wechatruby::TicketError
+      # 清空token缓存,重新尝试
+      ::Wechatruby::Client.token = nil
+      token = jsapi_access_token
+      ticket = jsapi_ticket(token)
+    end
 
     jsapi_params = {
       # :appId => self.id,
