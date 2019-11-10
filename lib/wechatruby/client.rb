@@ -29,6 +29,10 @@ module Wechatruby
         end
       end # token ending
 
+      def clear_token
+          @token = nil
+      end
+
     end
 
     def initialize(options)

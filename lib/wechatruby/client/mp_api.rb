@@ -27,7 +27,7 @@ module Wechatruby::Client::MpApi
       ticket = jsapi_ticket(token)
     rescue Wechatruby::TicketError
       # 清空token缓存,重新尝试
-      ::Wechatruby::Client.token = nil
+      ::Wechatruby::Client.clear_token
       token = jsapi_access_token
       ticket = jsapi_ticket(token)
     end
