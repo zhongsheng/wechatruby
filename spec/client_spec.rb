@@ -13,6 +13,12 @@ RSpec.describe Wechatruby do
     # expect(Wechatruby::Client.token(wechat.id, params ) ).to be false
   end
 
+  it 'can get temp qrcode' do
+    result = wechat.scene_qrcode('123456789', {expire_seconds: 9999})
+    pp result
+    expect(result).not_to be nil
+  end
+
   it 'can get media id' do
     result = wechat.assets.tmp_add('image', '/home/zhong/a.png')
 

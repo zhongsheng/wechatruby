@@ -18,6 +18,24 @@ module Wechatruby::Client::MpApi
     data['subscribe'].to_i != 0
   end
 
+  # 获取带场景二维码
+  # 获取临时 scene_qrcode('123', {expire_seconds: 999})
+  # 永久 scene_qrcode('123', {action_name: 'QR_LIMIT_SCENE'})
+  # 返回图片url
+  def scene_qrcode(scene_id, options=nil )
+    scene_url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=#{jsapi_access_token}"
+
+    params = {
+      action_name: "QR_SCENE",
+      action_info: { scene: { scene_id: scene_id } }
+    }
+    params.merge(options) unless options.nil?
+
+    resp = RestClient.post( scene_url, params.to_json, {content_type: :json, accept: :json} )
+    resp_data = JSON.parse resp.body
+    "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=#{resp_data["ticket"]}"
+  end
+
   # js sdk config
   #
   def web_jsapi_params(url, debug, *args)
