@@ -70,12 +70,6 @@ module Wechatruby
       @client ||= Wechatruby::Client.new(Rails.application.credentials.dig(:wechat_mp))
     end
 
-    # # 随机字符,不超过32位
-    # def nonce_str
-    #   Digest::MD5.hexdigest(Random.new_seed.to_s)
-    # end
-
-
     ##
     # 返回json, 参考
     # https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842
@@ -92,77 +86,6 @@ module Wechatruby
       end
     end
 
-    # def get_user_info(code)
-    #   auth_data = get_access_token(code)
-    #   url = 'https://api.weixin.qq.com/sns/userinfo?access_token='
-    #   url += auth_data["access_token"]
-    #   url += "&openid=#{auth_data['openid']}"
-    #   url += '&lang=zh_CN'
-    #   open(url) do |resp|
-    #     JSON.parse(resp.read)
-    #   end
-    # end
-
-    # def code_redirect_url(callback_url, scope='snsapi_userinfo')
-    #   query = {
-    #     appid: APP[:id],
-    #     redirect_uri: callback_url,
-    #     response_type: 'code',
-    #     scope: scope,
-    #     state: 'wechatruby',
-    #   }.to_query
-    #   return "https://open.weixin.qq.com/connect/oauth2/authorize?#{query}#wechat_redirect"
-    # end
-
-    # def qr_code_url(callback_url)
-    #   query = {
-    #     appid: APP[:id],
-    #     redirect_uri: callback_url,
-    #     response_type: 'code',
-    #     scope: 'snsapi_login',
-    #     state: Time.now.to_i,
-    #   }.to_query
-
-    #   return "https://open.weixin.qq.com/connect/qrconnect?#{query}#wechat_redirect"
-    # end
-
-    # ##
-    # # 发送参数参考
-    # # https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
-    # # 发送xml, 返回xml, 解析获取 prepay_id, 用于传送给 wx jsapi
-    # def order(params)
-    #   xml = params.to_xml
-    #   uri = URI( 'https://api.mch.weixin.qq.com/pay/unifiedorder' )
-    #   req = Net::HTTP::Post.new( uri )
-    #   req.body = xml
-    #   req.content_type = 'multipart/form-data'
-    #   res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) {|http|
-    #     http.request(req)
-    #   }
-    #   doc = REXML::Document.new res.body
-    #   if doc.root.elements['prepay_id']
-    #     [doc.root.elements['prepay_id'].text, 'success']
-    #   else
-    #     [nil, doc.root.elements['return_msg'].text]
-    #   end
-    # end
 
   end
 end
-
-# ##
-# # A simple monkey patch to Hash class
-# #  {key: 'value'}.to_xml
-# #  #=> <xml><key>value</key></xml>
-# class Hash
-#   def to_xml
-#     params = self
-#     x_builder = Builder::XmlMarkup.new
-#     xml = x_builder.xml { |x|
-#       params.each { |p|
-#         eval("x.#{p[0].to_s} '#{p[1]}'")
-#       }
-#     }
-#     return xml
-#   end
-# end

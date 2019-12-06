@@ -31,7 +31,10 @@ module Wechatruby::Client::MpApi
     }
     params.merge(options) unless options.nil?
 
-    resp = RestClient.post( scene_url, params.to_json, {content_type: :json, accept: :json} )
+    resp = RestClient.post( scene_url,
+                            params.to_json,
+                            {content_type: :json, accept: :json}
+                          )
     resp_data = JSON.parse resp.body
     "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=#{resp_data["ticket"]}"
   end
