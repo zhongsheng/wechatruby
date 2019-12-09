@@ -12,6 +12,19 @@ class Wechatruby::Client::Messages
       @token = token
     end
 
+    def send_text(user_id, text)
+      url = sprintf(SEND_URL, {token: @token})
+      pp url
+      params = {
+        touser: user_id,
+        msgtype: "text",
+        text: {
+          content: text
+        }
+      }.to_json
+      resp = RestClient.post( url, params, {content_type: :json, accept: :json} )
+      JSON.parse resp.body
+    end
     # 发送图片给客户
     # {"errcode"=>0, "errmsg"=>"ok"}
     #
