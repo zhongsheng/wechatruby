@@ -28,6 +28,12 @@ RSpec.describe Wechatruby do
     pp wechat.messages.send_image('osip61TslXFOq134R4pc2tI9qQrk', media_id)
   end
 
+  it 'can get use info by openid' do
+    result = wechat.get_user_by_id("osip61TslXFOq134R4pc2tI9qQrk")
+    pp result
+    expect(result).not_to be nil
+  end
+
   it 'can send template messages' do
     params =
       {

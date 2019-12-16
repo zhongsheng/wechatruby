@@ -74,6 +74,22 @@ module Wechatruby
       return "https://open.weixin.qq.com/connect/oauth2/authorize?#{query}#wechat_redirect"
     end
 
+    # 公众号通过openid 获取用户信息
+    # 必须是已经关注过公众号的用户
+    def get_user_by_id(openid)
+      query = {
+        access_token: jsapi_access_token,
+        openid: openid,
+        lang: 'zh_CN'
+      }.to_query
+      url = "https://api.weixin.qq.com/cgi-bin/user/info?#{query}"
+      open(url) do |resp|
+        JSON.parse(resp.read)
+      end
+    end
+
+    # 通过微信的登录验证code来获取用户信息.
+    # 用户不必关注公众号
     def get_user_info(code)
       auth_data = access_token(code)
       pp '-----------------------'
@@ -98,9 +114,7 @@ module Wechatruby
       end
     end
 
-
     private
-
 
     # ##
     # # digest hash to sign, reference:
