@@ -28,7 +28,7 @@ module Wechatruby::Client::MpApi
 
     params = {
       action_name: "QR_SCENE",
-      action_info: { scene: { scene_id: scene_id } }
+      action_info: { scene: { scene_str: scene_id } }
     }
     params.merge(options) unless options.nil?
 
