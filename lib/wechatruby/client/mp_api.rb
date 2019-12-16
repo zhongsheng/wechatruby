@@ -27,7 +27,7 @@ module Wechatruby::Client::MpApi
     scene_url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=#{jsapi_access_token}"
 
     params = {
-      action_name: "QR_SCENE",
+      action_name: "QR_STR_SCENE",
       action_info: { scene: { scene_str: scene_id } }
     }
     params.merge(options) unless options.nil?

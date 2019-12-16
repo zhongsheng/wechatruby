@@ -14,7 +14,7 @@ RSpec.describe Wechatruby do
   end
 
   it 'can get temp qrcode' do
-    result = wechat.scene_qrcode('123456789', {expire_seconds: 9999})
+    result = wechat.scene_qrcode('12sdj_asldfji_saldf_jisd3456789', {expire_seconds: 9999})
     pp result
     expect(result).not_to be nil
   end
