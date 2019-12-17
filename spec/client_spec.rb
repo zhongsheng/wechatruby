@@ -13,6 +13,13 @@ RSpec.describe Wechatruby do
     # expect(Wechatruby::Client.token(wechat.id, params ) ).to be false
   end
 
+  it 'can translate long url to short' do
+    url = 'https://developers.weixin.qq.com/doc/offiaccount/Account_Management/URL_Shortener.html'
+    result = wechat.get_short_url(url)
+    pp result
+    expect(result).not_to be nil
+  end
+
   it 'can get temp qrcode' do
     result = wechat.scene_qrcode('12sdj_asldfji_saldf_jisd3456789', {expire_seconds: 9999})
     pp result

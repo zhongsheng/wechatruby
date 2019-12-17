@@ -1,7 +1,4 @@
 # coding: utf-8
-# require 'rest-client'
-# require 'pry'
-# require 'json'
 
 # 素材管理
 class Wechatruby::Client::Messages
