@@ -20,9 +20,6 @@
 
    Configure AppID and SecretID
 
-   : Wechatruby::APP[:id] = 'appid'
-   : Wechatruby::APP[:secret] = 'secret'
-
    Wechatruby.session(code) return a hash object contain
 
    | 字段        | 类型   | 说明                         |
@@ -52,6 +49,8 @@
                    }
      }
    #+END_SRC
+*** Client
+    : Wechatruby::Client.new()
 
 ** License
 
