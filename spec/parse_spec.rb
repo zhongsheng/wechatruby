@@ -1,15 +1,13 @@
-# coding: utf-8
+# frozen_string_literal: true
 
 RSpec.describe Wechatruby do
-
-  let(:wechat) {
-    Wechatruby::Client.new({
-                             id: 'wx802a93ee50c6477a',
-                             secret: '9f3c51e0faaaf95310107078f6b7c59e'
-                           })
-  }
+  let(:wechat) do
+    Wechatruby::Client.new(
+      id: 'wx802a93ee50c6477a',
+      secret: '9f3c51e0faaaf95310107078f6b7c59e'
+    )
+  end
   let(:userid) { 'osip61TslXFOq134R4pc2tI9qQrk' }
-
 
   it 'can parse xml' do
     xml = '<xml>
@@ -43,5 +41,4 @@ RSpec.describe Wechatruby do
     result = Wechatruby::Xml.parse(xml)
     expect(result.get_value('Location_Y')).to eq('113')
   end
-
 end

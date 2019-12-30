@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 
 module Wechatruby
   class Xml
-
     def self.parse(xml)
       new(Nokogiri::XML(xml))
     end
@@ -24,6 +25,5 @@ module Wechatruby
 
     # def respond_to_missing?(method_name, include_private = false)
     # end
-
   end
 end

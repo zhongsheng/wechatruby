@@ -1,9 +1,10 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 # 素材管理
 
 module Wechatruby
   class Assets
-    UPLOAD_URL = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%{token}&type=%{type}"
+    UPLOAD_URL = 'https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%{token}&type=%{type}'
     def initialize(token)
       @token = token
     end
@@ -13,12 +14,11 @@ module Wechatruby
     # 语音（voice）：2M，播放长度不超过60s，支持AMR\MP3格式
     # 视频（video）：10MB，支持MP4格式
     # 缩略图（thumb）：64KB，支持JPG格式
-    def tmp_add(type,file_path)
-      url = sprintf(UPLOAD_URL, {token: @token, type: type})
+    def tmp_add(type, file_path)
+      url = format(UPLOAD_URL, token: @token, type: type)
       pp url
-      resp = ::RestClient.post( url, :media=> File.new(file_path, 'rb'))
+      resp = ::RestClient.post(url, media: File.new(file_path, 'rb'))
       JSON.parse resp.body
     end
-
   end
 end

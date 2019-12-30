@@ -1,4 +1,5 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 module Wechatruby
   class Client
     include Pay
@@ -6,7 +7,7 @@ module Wechatruby
     attr_accessor :id, :secret, :mch_id, :key
     class << self
       # 缓存access_token
-      def token(app_id, params=nil)
+      def token(app_id, params = nil)
         @token ||= {}
         # set params
         if params
@@ -15,7 +16,8 @@ module Wechatruby
           pp @token
           return true
         end
-        return nil if !@token[app_id]
+        return nil unless @token[app_id]
+
         pp 'check token-------------------------'
         pp @token
         if @token[app_id]['expired_at'] > Time.now
@@ -26,9 +28,8 @@ module Wechatruby
       end # token ending
 
       def clear_token
-          @token = nil
+        @token = nil
       end
-
     end
 
     def initialize(options)
@@ -41,13 +42,14 @@ module Wechatruby
     def messages
       Messages.new(jsapi_access_token)
     end
+
     def assets
       Assets.new(jsapi_access_token)
     end
+
     def menu
       Menu.new(jsapi_access_token)
     end
-
 
     # web app 扫码登录
     def qr_code_url(callback_url)
@@ -56,22 +58,22 @@ module Wechatruby
         redirect_uri: callback_url,
         response_type: 'code',
         scope: 'snsapi_login',
-        state: 'qr_code',
+        state: 'qr_code'
       }.to_query
 
-      return "https://open.weixin.qq.com/connect/qrconnect?#{query}#wechat_redirect"
+      "https://open.weixin.qq.com/connect/qrconnect?#{query}#wechat_redirect"
     end
 
     # 公众号验证登录
-    def code_request_url(callback_url, scope='snsapi_userinfo')
+    def code_request_url(callback_url, scope = 'snsapi_userinfo')
       query = {
-        appid: self.id,
+        appid: id,
         redirect_uri: callback_url,
         response_type: 'code',
         scope: scope,
-        state: 'mp_code',
+        state: 'mp_code'
       }.to_query
-      return "https://open.weixin.qq.com/connect/oauth2/authorize?#{query}#wechat_redirect"
+      "https://open.weixin.qq.com/connect/oauth2/authorize?#{query}#wechat_redirect"
     end
 
     # 公众号通过openid 获取用户信息
@@ -107,7 +109,7 @@ module Wechatruby
 
     # 用于小程序端获取openid
     def get_session_by(code)
-      wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{self.id}&secret=#{self.secret}&js_code=#{code}&grant_type=authorization_code"
+      wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{id}&secret=#{secret}&js_code=#{code}&grant_type=authorization_code"
 
       open(wx_url) do |resp|
         JSON.parse(resp.read)
@@ -128,13 +130,12 @@ module Wechatruby
     #   return Digest::MD5.hexdigest(sign).upcase
     # end
 
-
     # 登录验证token
     # 和公众号小程序的api接口token不同
     def access_token(code)
       query = {
-        appid: self.id,
-        secret: self.secret,
+        appid: id,
+        secret: secret,
         code: code,
         grant_type: 'authorization_code'
       }.to_query

@@ -1,27 +1,27 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 require 'openssl'
 require 'base64'
 require 'digest'
 
 require 'open-uri'
 require 'net/http'
-require "uri"
+require 'uri'
 require 'active_support/all'
 
 require 'rest-client'
 require 'builder'
-require "rexml/document"
+require 'rexml/document'
 require 'json'
-require "zeitwerk"
+require 'zeitwerk'
 loader = Zeitwerk::Loader.for_gem
 loader.setup # ready!
 
 module Wechatruby
-
   class TicketError < StandardError
   end
 
-  CIPHER_TYPE = "AES-128-CBC"
+  CIPHER_TYPE = 'AES-128-CBC'
 
   # APP = {
   #   id: 'appid',
@@ -34,7 +34,7 @@ module Wechatruby
     aes = OpenSSL::Cipher.new(CIPHER_TYPE)
     aes.encrypt
     aes.key = key
-    aes.iv = iv if iv != nil
+    aes.iv = iv unless iv.nil?
     aes.update(data) + aes.final
   end
 
@@ -51,7 +51,7 @@ module Wechatruby
     JSON.parse(aes.update(aes_cipher) + aes.final)
   end
 
-  # TODO 小程序会话使用
+  # TODO: 小程序会话使用
   # def self.session(code)
   #   wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{APP[:id]}&secret=#{APP[:secret]}&js_code=#{code}&grant_type=authorization_code"
 
@@ -61,7 +61,6 @@ module Wechatruby
   # end
 
   class << self
-
     def app_client
       @app_client ||= Wechatruby::Client.new(Rails.application.credentials.dig(:wechat_web_app))
     end
@@ -85,7 +84,5 @@ module Wechatruby
         JSON.parse(resp.read)
       end
     end
-
-
   end
 end
