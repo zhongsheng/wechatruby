@@ -39,6 +39,10 @@ module Wechatruby
       @key = options[:key]
     end
 
+    def shop
+      Api::Shop.new(jsapi_access_token)
+    end
+
     def messages
       Messages.new(jsapi_access_token)
     end

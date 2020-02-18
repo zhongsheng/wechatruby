@@ -17,6 +17,7 @@ require 'zeitwerk'
 loader = Zeitwerk::Loader.for_gem
 loader.setup # ready!
 
+# 微信公众平台API
 module Wechatruby
   class TicketError < StandardError
   end

@@ -1,0 +1,33 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'tmp/**/*'
+    - '.git/**/*'
+    - 'app/doc/*'
+    - 'node_modules/*'
+    - 'db/**/*'
+
+
+Metrics/AbcSize:
+  Max: 30
+Metrics/MethodLength:
+  Max: 30
+Metrics/LineLength:
+  Max: 90
+Metrics/ClassLength:
+  Max: 200
+
+Style/AsciiComments:
+  Enabled: false
+Style/NumericPredicate:
+  EnforcedStyle: comparison
+
+
+Style/RedundantSelf:
+  Enabled: false
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/ClassAndModuleChildren:
+  Enabled: false
