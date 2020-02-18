@@ -14,8 +14,8 @@ module Wechatruby::Api
     def order(begin_time, end_time, status)
       fetch_data('order/getbyfilter',
                  status: STATUS[status],
-                 begintime: begin_time,
-                 endtime: end_time)
+                 begintime: begin_time.to_i,
+                 endtime: end_time.to_i)
     end
 
     private
