@@ -135,6 +135,7 @@ module Wechatruby::Client::MpApi
   def fetch_data(action, params)
     server_address = 'https://api.weixin.qq.com/cgi-bin/'
     url = "#{server_address}#{action}?access_token=#{jsapi_access_token}"
+    pp params
 
     resp = RestClient.post(url, params.to_json, content_type: :json, accept: :json)
     JSON.parse resp.body
