@@ -34,12 +34,12 @@ module Wechatruby::Client::MpApi
   # 永久 scene_qrcode('123', {action_name: 'QR_LIMIT_SCENE'})
   # 返回图片url
   # 参考: https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html
-  def scene_qrcode(scene_id, options = nil)
+  def scene_qrcode(scene_id, options = {})
     params = {
       action_name: 'QR_STR_SCENE',
       action_info: { scene: { scene_str: scene_id } }
     }
-    params.merge(options) unless options.nil?
+    params = params.merge(options)
     resp_data = fetch_data('qrcode/create', params)
     # resp_data['expire_seconds'] # 60秒后过期
     # resp_data['url'] # 二维码的内容是个url, 可以自行生产二维码
