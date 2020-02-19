@@ -1,6 +1,6 @@
 # lib/user.rb
 
-module Wechatruby::Client
+module Wechatruby::Api
   class User
     def initialize(token)
       @token = token
