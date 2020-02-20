@@ -16,7 +16,7 @@ RSpec.describe Wechatruby do
   it 'can get orders' do
     begin_time = Time.now.to_i
     end_time = begin_time - 24*3600
-    orders = wechat.shop.order(end_time, begin_time, :paid)
+    orders = wechat.shop.orders(end_time, begin_time, :paid)
     pp orders
     expect( orders['errcode'] ).to be 0
   end
