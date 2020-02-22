@@ -62,12 +62,12 @@ module Wechatruby::Client::Pay
   # digest hash to sign, reference:
   # https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3
   def sign_digest(params)
-    sign = ''
+    sign = []
     params.sort.each do |p|
       sign << p[0].to_s + '=' + p[1].to_s + '&'
     end
     sign << "key=#{key}"
-    Digest::MD5.hexdigest(sign).upcase
+    Digest::MD5.hexdigest(sign.join).upcase
   end
 
   def to_xml(params)
