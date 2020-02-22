@@ -72,9 +72,9 @@ module Wechatruby::Client::Pay
 
   def to_xml(params)
     x_builder = Builder::XmlMarkup.new
-    xml = x_builder.xml do |_x|
+    xml = x_builder.xml do |x|
       params.each do |p|
-        eval("x.#{p[0]} '#{p[1]}'")
+        eval("x.#{p[0].to_s} '#{p[1]}'")
       end
     end
     xml
