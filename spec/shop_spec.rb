@@ -3,8 +3,8 @@
 RSpec.describe Wechatruby do
   let(:wechat) do
     Wechatruby::Client.new(
-      id: 'wxc0ce78295911428d',
-      secret: '898f2e2a189e96fb9ebe7c42e325f663'
+      id: ENV.fetch('WX_KEY_1'),
+      secret: ENV.fetch('WX_SECRET_1')
     )
   end
   it 'can get shop' do
@@ -19,5 +19,11 @@ RSpec.describe Wechatruby do
     orders = wechat.shop.orders(end_time, begin_time, :paid)
     pp orders
     expect( orders['errcode'] ).to be 0
+  end
+
+  it 'can close order' do
+    result = wechat.shop.close_order '12944202038177310886'
+    pp result
+    expect( result['errcode'] ).to be 0
   end
 end

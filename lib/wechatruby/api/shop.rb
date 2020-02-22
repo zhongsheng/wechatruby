@@ -18,6 +18,11 @@ module Wechatruby::Api
                  endtime: end_time.to_i)
     end
 
+    # close
+    def close_order(order_id)
+      fetch_data('order/close', order_id: order_id)
+    end
+
     private
 
     def fetch_data(action, params)

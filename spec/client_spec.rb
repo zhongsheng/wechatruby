@@ -3,8 +3,8 @@
 RSpec.describe Wechatruby do
   let(:wechat) do
     Wechatruby::Client.new(
-      id: 'wx802a93ee50c6477a',
-      secret: '9f3c51e0faaaf95310107078f6b7c59e'
+      id: ENV.fetch('WX_KEY_2'),
+      secret: ENV.fetch('WX_SECRET_2')
     )
   end
   it 'can get token' do
