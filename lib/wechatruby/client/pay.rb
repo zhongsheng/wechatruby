@@ -13,9 +13,9 @@ module Wechatruby::Client::Pay
     # 第二步: 下订单,获取prepay_id
     #--------------------
     wx_params = {
-      appid: id,
+      appid: @id,
       body: 'JSAPIpaytest',
-      mch_id: mch_id,
+      mch_id: @mch_id,
       nonce_str: nonce_str, # 随机字符,不超过32位
       notify_url: options[:redirect_url],
       out_trade_no: time_stamp,
@@ -66,10 +66,11 @@ module Wechatruby::Client::Pay
     params.sort.each do |p|
       sign << p[0].to_s + '=' + p[1].to_s + '&'
     end
-    sign << "key=#{key}"
+    sign << "key=#{@key}"
     Digest::MD5.hexdigest(sign.join).upcase
   end
 
+  # TODO remove eval
   def to_xml(params)
     x_builder = Builder::XmlMarkup.new
     xml = x_builder.xml do |x|
