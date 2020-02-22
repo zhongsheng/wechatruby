@@ -94,6 +94,13 @@ module Wechatruby
       end
     end
 
+    # scope : snsapi_base
+    # 可直接获取openid
+    def get_openid_by_code(code)
+      auth_data = access_token(code)
+      auth_data['openid']
+    end
+
     # 通过微信的登录验证code来获取用户信息.
     # 用户不必关注公众号
     def get_user_info(code)
