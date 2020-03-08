@@ -39,6 +39,10 @@ module Wechatruby
       @key = options[:key]
     end
 
+    def cgi
+      Api::Cgi.new(jsapi_access_token)
+    end
+
     def shop
       Api::Shop.new(jsapi_access_token)
     end
@@ -52,7 +56,7 @@ module Wechatruby
     end
 
     def menu
-      Menu.new(jsapi_access_token)
+      Api::Menu.new(jsapi_access_token)
     end
 
     # web app 扫码登录

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wechatruby (0.4.4)
+    wechatruby (0.4.9)
       builder
       nokogiri
       rest-client
