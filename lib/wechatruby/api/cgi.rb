@@ -18,10 +18,9 @@ module Wechatruby::Api
         openid: openid,
         lang: 'zh_CN'
       }
-      # url = "https://api.weixin.qq.com/cgi-bin/user/info?#{query}"
-      data = fetch_data('user/info', query)
+      result = get_data('user/info', query)
 
-      data['subscribe'].to_i != 0
+      result['subscribe'].to_i != 0
     end
 
     # 长链接转短链接

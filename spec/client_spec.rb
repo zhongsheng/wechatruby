@@ -32,7 +32,6 @@ RSpec.describe Wechatruby do
     params =
       {
         touser: 'osip61TslXFOq134R4pc2tI9qQrk',
-        # template_id: "uQtXKW0Uz-STOVXb2ra-SYYrPpzoeshgbahX4Kg2F9Y",
         template_id: 'ItWRq3Qm-qcEUWw79sSADu6axa38reZUqTWJE2tsos0',
         data: {
           first: {

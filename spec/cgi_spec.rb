@@ -16,7 +16,7 @@ RSpec.describe Wechatruby do
   end
 
   it 'subscribed' do
-    result = wechat.cgi.subscribed?('osip61TslXFOq134R4pc2tI9qQrk')
+    result = wechat.cgi.subscribed?("osip61TslXFOq134R4pc2tI9qQrk")
     pp result
     expect(result).not_to be nil
   end

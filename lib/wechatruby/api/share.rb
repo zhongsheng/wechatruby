@@ -6,6 +6,18 @@ module Wechatruby::Api
   module Share
     private
 
+    def get_data(action, params)
+      url = [
+        @server_address,
+        action,
+        "?access_token=#{@token}&#{params.to_query}"
+      ].join
+
+      resp = RestClient.get(url, accept: :json)
+      pp resp
+      JSON.parse resp.body
+    end
+
     def fetch_data(action, params)
       url = [
         @server_address,
