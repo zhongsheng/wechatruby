@@ -68,7 +68,7 @@ RSpec.describe Wechatruby do
             {
               "type": 'view',
               "name": '搜索',
-              "url": 'http://www.soso.com/'
+              "url": 'http://mp.weixin.qq.com/s_&'
             },
             {
               "type": 'click',
@@ -79,6 +79,7 @@ RSpec.describe Wechatruby do
         }
       ]
     }
+    pp params.to_json
     result = wechat.menu.create(params)
     pp result
     expect(result['errcode']).to be 0
