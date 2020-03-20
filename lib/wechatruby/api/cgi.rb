@@ -31,7 +31,7 @@ module Wechatruby::Api
         long_url: long_url
       }
       result = fetch_data('shorturl', params)
-      raise result['errmsg'] if result['errcode'] != 0
+      raise result['errmsg'] + result['errcode'].to_s if result['errcode'] != 0
 
       result['short_url']
     end

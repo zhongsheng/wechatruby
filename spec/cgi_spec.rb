@@ -4,8 +4,8 @@
 RSpec.describe Wechatruby do
   let(:wechat) do
     Wechatruby::Client.new(
-      id: ENV.fetch('WX_KEY_2'),
-      secret: ENV.fetch('WX_SECRET_2')
+      id: ENV.fetch('WX_KEY_3'),
+      secret: ENV.fetch('WX_SECRET_3')
     )
   end
   it 'long url to short' do
