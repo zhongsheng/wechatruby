@@ -3,10 +3,16 @@
 RSpec.describe Wechatruby do
   let(:wechat) do
     Wechatruby::Client.new(
-      id: ENV.fetch('WX_KEY_2'),
-      secret: ENV.fetch('WX_SECRET_2')
+      id: ENV.fetch('WX_KEY_1'),
+      secret: ENV.fetch('WX_SECRET_1')
     )
   end
+
+  it 'can get callback ip list' do
+    result = wechat.cgi.callback_ip_list
+    expect(result).not_to be nil
+  end
+
   it 'long url to short' do
     url = 'http://www.baidu.com'
     short_url = wechat.cgi.short_url(url)
@@ -15,7 +21,7 @@ RSpec.describe Wechatruby do
   end
 
   it 'subscribed' do
-    result = wechat.cgi.subscribed?("osip61TslXFOq134R4pc2tI9qQrk")
+    result = wechat.cgi.subscribed?("oY98t6BQs0wbmSgcpn2lseEV9N4k")
     pp result
     expect(result).not_to be nil
   end

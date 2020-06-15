@@ -12,6 +12,13 @@ module Wechatruby::Api
       @server_address = 'https://api.weixin.qq.com/cgi-bin/'
     end
 
+    def callback_ip_list
+      result = get_data('getcallbackip', {})
+      raise result['errmsg'] + result['errcode'].to_s if result['ip_list'].nil?
+
+      result['ip_list']
+    end
+
     # openid 是否订阅
     def subscribed?(openid)
       query = {
