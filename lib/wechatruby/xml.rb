@@ -13,7 +13,16 @@ module Wechatruby
       @noko = doc
       @openid = get_value 'FromUserName'
       type = get_value 'MsgType'
-      @event = get_value('Event') if type == 'event'
+      @event = case type
+               when 'event'
+                 get_value('Event')
+               when 'text'
+                 'text'
+               when 'image'
+                 'image'
+               else
+                 type
+               end
     end
 
     def get_value(param)

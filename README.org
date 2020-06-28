@@ -1,5 +1,3 @@
-* Wechatruby
-
 微信开放平台API
 
 ** Installation
@@ -17,8 +15,104 @@
    : $ gem install wechatruby
 
 ** Usage
+*** client
+#+BEGIN_SRC ruby
+wechat = Wechatruby::Client.new(
+  id: ENV.fetch('AppID'),
+  secret: ENV.fetch('AppSecret')
+)
+#+END_SRC
+*** 获取用户信息
+#+BEGIN_SRC ruby
+# 通过openid获取用户信息
+user_info = wechat.get_user_by_id('osip61TslXFOq134R4pc2tI9qQrk')
+#+END_SRC
 
-   Configure AppID and SecretID
+
+*** 发送信息
+#+BEGIN_SRC ruby
+# 发送模板信息
+params =
+  {
+    touser: 'sip61TslXFOq134R4pc2tI9qQrk',
+    template_id: 'tWRq3Qm-qcEUWw79sSADu6axa38reZUqTWJE2tsos0',
+    data: {
+      first: {
+        value: 'Welcome'
+      },
+      orderno: {
+        value: '123456789'
+      },
+      amount: {
+        value: 123
+      },
+      remark: {
+        value: 'Thanks'
+      }
+    }
+  }
+result = wechat.messages.send_template(params)
+
+# 发送图片
+result = wechat.assets.tmp_add('image', '/FILE_PATH/a.png')
+
+media_id = result['media_id']
+wechat.messages.send_image('sip61TslXFOq134R4pc2tI9qQrk', media_id)
+#+END_SRC
+
+*** 其他功能
+
+#+BEGIN_SRC ruby
+
+# 用户是否关注公众号
+wechat.cgi.subscribed?("oY98t6BQs0wbmSgcpn2lseEV9N4k")
+#=> false or true
+
+# 短连接
+short_url = wechat.cgi.short_url('http://long.url')
+
+# 临时二维码
+wechat.cgi.scene_qrcode('message', expire_seconds: 9999)
+
+# 微信回调服务器白名单
+ip_array = wechat.cgi.callback_ip_list
+#+END_SRC
+
+*** 处理微信推送和事件回调
+#+BEGIN_SRC ruby
+
+result = Wechatruby::Xml.parse(xml)
+result.event
+#=> 'CLICK'
+
+# 触发点击的用户openid
+result.openid
+# 获取点击事件绑定的值
+result.get_value('EventKey')
+#+END_SRC
+事件文档 https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
+
+| Name           | Event     | Values         |
+|----------------+-----------+----------------|
+| 关注公众号     | subscribe |                |
+| 扫码           | SCAN      |                |
+| 上报地理位置   | LOCATION  |                |
+| 菜单点击       | CLICK     |                |
+| 带网址的菜单   | VIEW      |                |
+| 公众号文本回复 | text      | Content        |
+| 图片回复       | image     | PicUrl MediaId |
+|                |           |                |
+** License
+
+   The gem is available as open source under the terms of the
+   [[https://opensource.org/licenses/MIT][MITLicense]].
+
+
+** Code of Conduct
+
+   Everyone interacting in the Wechatruby project’s codebases, issue trackers,
+   chat rooms and mailing lists is expected to follow the
+   [[https://github.com/zhongsheng/wechatruby/blob/master/CODE_OF_CONDUCT.md]]
 
    Wechatruby.session(code) return a hash object contain
 
@@ -30,7 +124,6 @@
    | errcode     | number | 错误码                       |
    | errMsg      | string | 错误信息                     |
 
-   在满足 UnionID 下发条件的情况下会返回，详见 UnionID 机制说明。
 
    Wechatruby.decrypt encryptedData, return a hash object
    #+BEGIN_SRC ruby
@@ -49,17 +142,3 @@
                    }
      }
    #+END_SRC
-*** Client
-    : Wechatruby::Client.new()
-
-** License
-
-   The gem is available as open source under the terms of the
-   [[https://opensource.org/licenses/MIT][MITLicense]].
-
-
-** Code of Conduct
-
-   Everyone interacting in the Wechatruby project’s codebases, issue trackers,
-   chat rooms and mailing lists is expected to follow the
-   [[https://github.com/zhongsheng/wechatruby/blob/master/CODE_OF_CONDUCT.md]]
