@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
 RSpec.describe Wechatruby do
-  let(:wechat) do
-    Wechatruby::Client.new(
-      id: 'wx802a93ee50c6477a',
-      secret: '9f3c51e0faaaf95310107078f6b7c59e'
-    )
-  end
+
   let(:userid) { 'osip61TslXFOq134R4pc2tI9qQrk' }
+  it 'can parse text' do
+    xml = '<xml>
+<ToUserName><![CDATA[toUser]]></ToUserName>
+<FromUserName><![CDATA[osip61TslXFOq134R4pc2tI9qQrk]]></FromUserName>
+<CreateTime>123456789</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[hi]]></Content>
+<MsgId>22811083100541224</MsgId>
+</xml>'
+    result = Wechatruby::Xml.parse(xml)
+    expect(result.openid).to eq(userid)
+    expect(result.event).to eq('text')
+    expect(result.get_value('Content')).to eq('hi')
+  end
 
   it 'can parse xml' do
     xml = '<xml>

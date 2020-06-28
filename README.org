@@ -92,16 +92,17 @@ result.get_value('EventKey')
 #+END_SRC
 事件文档 https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_event_pushes.html
 
-| Name           | Event     | Values         |
-|----------------+-----------+----------------|
-| 关注公众号     | subscribe |                |
-| 扫码           | SCAN      |                |
-| 上报地理位置   | LOCATION  |                |
-| 菜单点击       | CLICK     |                |
-| 带网址的菜单   | VIEW      |                |
-| 公众号文本回复 | text      | Content        |
-| 图片回复       | image     | PicUrl MediaId |
-|                |           |                |
+| Name           | Event           | Values                |
+|----------------+-----------------+-----------------------|
+| 关注公众号     | subscribe       |                       |
+| 扫码           | SCAN            |                       |
+| 上报地理位置   | LOCATION        |                       |
+| 菜单点击       | CLICK           |                       |
+| 带网址的菜单   | VIEW            |                       |
+| 公众号文本回复 | text            | Content               |
+| 图片回复       | image           | PicUrl MediaId        |
+| 从菜单选择地址 | location_select | Location_X Location_Y |
+|                |                 |                       |
 ** License
 
    The gem is available as open source under the terms of the
