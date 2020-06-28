@@ -27,7 +27,32 @@ wechat = Wechatruby::Client.new(
 # 通过openid获取用户信息
 user_info = wechat.get_user_by_id('osip61TslXFOq134R4pc2tI9qQrk')
 #+END_SRC
+*** 微信登录
+**** 公众号登录
+#+BEGIN_SRC ruby
+callback_url = 'https://exmple.com/wechat/signup'
+if request.headers['HTTP_USER_AGENT'].include?('MicroMessenger')
+  redirect_to wechat.code_request_url(callback_url)
+  return
+end
 
+# 处理回调
+# 微信服务器 get 访问指定的回调地址, 并传入code参数
+# 获取用户信息和openid
+user_info = wechat.get_user_info(params[:code])
+
+#+END_SRC
+**** 浏览器扫码登录
+#+BEGIN_SRC ruby
+callback_url = 'https://exmple.com/wechat/signup'
+redirect_to wechat.qr_code_url(callback_url)
+
+# 处理回调
+# 微信服务器 get 访问指定的回调地址, 并传入code参数
+# 获取用户信息和openid
+user_info = wechat.get_user_info(params[:code])
+
+#+END_SRC
 
 *** 发送信息
 #+BEGIN_SRC ruby
@@ -95,19 +120,17 @@ result.get_value('EventKey')
 | Name           | Event           | Values                |
 |----------------+-----------------+-----------------------|
 | 关注公众号     | subscribe       |                       |
-| 扫码           | SCAN            |                       |
-| 上报地理位置   | LOCATION        |                       |
-| 菜单点击       | CLICK           |                       |
-| 带网址的菜单   | VIEW            |                       |
+| 扫码           | SCAN            | EventKey              |
+| 上报地理位置   | LOCATION        | Latitude  Longitude   |
+| 菜单点击       | CLICK           | EventKey              |
+| 带网址的菜单   | VIEW            | EventKey              |
 | 公众号文本回复 | text            | Content               |
 | 图片回复       | image           | PicUrl MediaId        |
 | 从菜单选择地址 | location_select | Location_X Location_Y |
 |                |                 |                       |
 ** License
-
-   The gem is available as open source under the terms of the
-   [[https://opensource.org/licenses/MIT][MITLicense]].
-
+The gem is available as open source under the terms of the
+[[https://opensource.org/licenses/MIT][MITLicense]].
 
 ** Code of Conduct
 
