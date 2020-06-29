@@ -9,7 +9,10 @@ RSpec.describe Wechatruby do
   end
 
   it 'can get callback ip list' do
-    result = wechat.cgi.callback_ip_list
+    result = wechat.ip_list
+    expect(result).not_to be nil
+
+    result = wechat.ip_list
     expect(result).not_to be nil
   end
 

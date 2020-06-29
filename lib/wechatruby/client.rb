@@ -5,6 +5,7 @@ module Wechatruby
     include Pay
     include MpApi
     attr_accessor :id, :secret, :mch_id, :key
+    @@ip_list = nil
     class << self
       # 缓存access_token
       def token(app_id, params = nil)
@@ -37,6 +38,10 @@ module Wechatruby
       @secret = options[:secret]
       @mch_id = options[:mch_id]
       @key = options[:key]
+    end
+
+    def ip_list
+      @@ip_list ||= cgi.callback_ip_list
     end
 
     def cgi
