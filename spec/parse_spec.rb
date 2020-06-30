@@ -3,6 +3,17 @@
 RSpec.describe Wechatruby do
 
   let(:userid) { 'osip61TslXFOq134R4pc2tI9qQrk' }
+  it 'can get pay xml' do
+    xml = <<~XML
+        <xml>
+              <return_code><![CDATA[SUCCESS]]></return_code>
+              <return_msg><![CDATA[OK]]></return_msg>
+        </xml>
+      XML
+
+    expect(Wechatruby::Xml.pay_success).to eq(xml)
+  end
+
   it 'can parse text' do
     xml = '<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
@@ -16,6 +27,9 @@ RSpec.describe Wechatruby do
     expect(result.openid).to eq(userid)
     expect(result.event).to eq('text')
     expect(result.get_value('Content')).to eq('hi')
+
+    pp result.reward_to_customer_service
+    expect(result.reward_to_customer_service).not_to be nil
   end
 
   it 'can parse xml' do

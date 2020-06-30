@@ -112,7 +112,7 @@ short_url = wechat.cgi.short_url('http://long.url')
 wechat.cgi.scene_qrcode('message', expire_seconds: 9999)
 
 # 微信回调服务器白名单
-ip_array = wechat.cgi.callback_ip_list
+ip_array = wechat.ip_list
 #+END_SRC
 
 *** 处理微信推送和事件回调
@@ -184,7 +184,7 @@ https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html
 #+BEGIN_SRC ruby
 # WechatController#fetch_config
 def fetch_config
-  @jsapi_params = $wechat_mp.web_jsapi_params(
+  @jsapi_params = wechat.web_jsapi_params(
     params[:url],
     # Rails.env.development?,
     false,
@@ -201,7 +201,7 @@ begin_time = Time.now.to_i
 end_time = begin_time - 24*3600
 orders = wechat.shop.orders(end_time, begin_time, :paid)
 
-# 关闭顶灯。
+# 关闭订单。
 result = wechat.shop.close_order 'ORDER_ID'
 #+END_SRC
 
@@ -226,7 +226,7 @@ def call_back
   Order.find_by(id: params[:id], status: :waitting_pay)
   # 处理订单状态
     ...
-  render xml: '<xml> <return_code><![CDATA[SUCCESS]]></return_code> <return_msg><![CDATA[OK]]></return_msg> </xml>'
+  render xml: Wechatruby::Xml.pay_success
 end
 #+END_SRC
 
