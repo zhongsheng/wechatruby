@@ -40,6 +40,15 @@ user_info = wechat.get_user_by_id('osip61TslXFOq134R4pc2tI9qQrk')
 # }
 #+END_SRC
 *** 微信登录
+公众号和网页登录机制不同, 公众号登录需要认证过的服务号appid,
+而网页登录需要在开放平台注册一个webapp, 并获取appid.
+具体方法参考:
+https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
+
+个人比较倾向的解决方案是使用公众号生成的临时二维码功能,
+结合websocket来做pc网页端登录, 这样的好处是不用再申请开放平台,
+而且可以强制用户登录前关注公众号.
+
 **** 公众号登录
 #+BEGIN_SRC ruby
 callback_url = 'https://exmple.com/wechat/signup'
