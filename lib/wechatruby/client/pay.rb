@@ -14,7 +14,7 @@ module Wechatruby::Client::Pay
     #--------------------
     wx_params = {
       appid: @id,
-      body: 'JSAPIpaytest',
+      body: (options[:body] || 'wechatruby'),
       mch_id: @mch_id,
       nonce_str: nonce_str, # 随机字符,不超过32位
       notify_url: options[:redirect_url],
@@ -24,14 +24,10 @@ module Wechatruby::Client::Pay
       trade_type: 'JSAPI',
       total_fee: (options[:fee] * 100).to_i # 坑,分为单位,微信的傻逼们不知道怎么处理小数点
     }
-    pp wx_params
     # 得到参数签名(sign)
     wx_params[:sign] = sign_digest(wx_params)
     prepay_id, order_des = order(wx_params)
 
-    pp 'order: params'
-    pp prepay_id
-    pp order_des
 
     #--------------------
     # 第三步: 组织传给前端wx js的 json 数据
