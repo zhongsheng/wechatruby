@@ -4,7 +4,7 @@ module Wechatruby
   class Client
     include Pay
     include MpApi
-    attr_accessor :id, :secret, :mch_id, :key
+    attr_accessor :id, :secret, :mch_id, :key, :cert_no, :cert_pem, :private_key, :v3_key
     @@ip_list = nil
     class << self
       # 缓存access_token
@@ -38,10 +38,18 @@ module Wechatruby
       @secret = options[:secret]
       @mch_id = options[:mch_id]
       @key = options[:key]
+      @cert_no = options[:cert_no]
+      @cert_pem = options[:cert_pem]
+      @private_key = options[:private_key]
+      @v3_key = options[:v3_key]
     end
 
     def ip_list
       @@ip_list ||= cgi.callback_ip_list
+    end
+
+    def pay3
+      Pay3.new(self)
     end
 
     def cgi
