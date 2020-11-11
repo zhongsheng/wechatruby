@@ -47,7 +47,6 @@ module Wechatruby::Client::MpApi
   # 说明文档 https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
   def jsapi_access_token
     if ::Wechatruby::Client.token(id)
-      pp '######### debug:: Use cached token.'
       return ::Wechatruby::Client.token(id)
     end
     query = {
@@ -60,8 +59,6 @@ module Wechatruby::Client::MpApi
     result = open(wx_url) do |resp|
       JSON.parse(resp.read)
     end
-    pp 'Got access token from wechat server'
-    pp result
     raise 'Cant get access_token' unless result['access_token']
 
     ::Wechatruby::Client.token(id, result)

@@ -6,7 +6,19 @@ module Wechatruby
     include MpApi
     attr_accessor :id, :secret, :mch_id, :key, :cert_no, :cert_pem, :private_key, :v3_key
     @@ip_list = nil
+
+    TOKEN_FILE = '/tmp/wechat_token'
     class << self
+      def cache_token(token)
+        File.write(TOKEN_FILE, token.to_json)
+      end
+
+      def read_token
+        return nil unless File.exist?(Wechatruby::Client::TOKEN_FILE)
+
+        JSON.parse File.read(Wechatruby::Client::TOKEN_FILE)
+      end
+
       # 缓存access_token
       def token(app_id, params = nil)
         @token ||= {}
@@ -14,18 +26,13 @@ module Wechatruby
         if params
           @token[app_id] = params
           @token[app_id]['expired_at'] = Time.now + params['expires_in'] - 1000
-          pp @token
+          cache_token @token
           return true
         end
         return nil unless @token[app_id]
 
         pp 'check token-------------------------'
-        pp @token
-        if @token[app_id]['expired_at'] > Time.now
-          return @token[app_id]['access_token']
-        else
-          return nil
-        end
+        @token[app_id]['access_token'] if @token[app_id]['expired_at'] > Time.now
       end # token ending
 
       def clear_token
@@ -173,5 +180,6 @@ module Wechatruby
         JSON.parse(resp.read)
       end
     end
+    @token = read_token
   end
 end

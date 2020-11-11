@@ -3,10 +3,21 @@
 RSpec.describe Wechatruby do
   let(:wechat) do
     Wechatruby::Client.new(
-      id: ENV.fetch('WX_KEY_2'),
-      secret: ENV.fetch('WX_SECRET_2')
+      id: ENV.fetch('WX_KEY_1'),
+      secret: ENV.fetch('WX_SECRET_1'),
     )
   end
+  it 'can cache token' do
+    # Wechatruby::Client.cache_token({app_id: 123})
+    params = wechat.jsapi_access_token
+    pp params
+    expect(File.exist?(Wechatruby::Client::TOKEN_FILE)).to be true
+
+    token = JSON.parse File.read(Wechatruby::Client::TOKEN_FILE)
+    pp token
+
+  end
+
   it 'can get token' do
     params = wechat.jsapi_access_token
     expect(wechat.jsapi_access_token).not_to be nil
