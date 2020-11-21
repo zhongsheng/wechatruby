@@ -3,6 +3,26 @@
 module Wechatruby::Client::Pay
   # 支付模块
 
+  def pension_to(openid, options)
+    time_stamp = Time.now.to_i.to_s
+    wx_params = {
+      nonce_str: nonce_str, # 随机字符,不超过32位
+      mch_billno: time_stamp,
+      mch_id: @mch_id,
+      wxappid: @id,
+      send_name: 'Lefin',
+      re_openid: openid,
+      total_amount: 100,
+      total_num: 1,
+      wishing: 'Thanks',
+      client_ip: options[:ip].to_s,
+      act_name: 'Lefin Milk Reward',
+      remark: 'Good'
+    }
+    wx_params[:sign] = sign_digest(wx_params)
+    post_with_cert(wx_params)
+  end
+
   # options: {:redirect_url :ip :fee }
   # openid
   def prepay_params(openid, options)
@@ -96,6 +116,19 @@ module Wechatruby::Client::Pay
     else
       [nil, doc.root.elements['return_msg'].text]
     end
+  end
+
+  # https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
+  def post_with_cert(params)
+    xml = to_xml(params)
+    url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
+    res = RestClient::Resource.new(
+      url,
+      :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(@cert_pem),
+      :ssl_client_key   =>  OpenSSL::PKey::RSA.new(@private_key),
+      :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
+    ).post(xml)
+    res.body
   end
 
   # 随机字符,不超过32位

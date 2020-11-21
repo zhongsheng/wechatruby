@@ -3,17 +3,30 @@
 # mp_spec.rb
 
 RSpec.describe Wechatruby do
-  let(:wxpay) do
-    Wechatruby::Client.new(
+  let(:client) do
+        Wechatruby::Client.new(
       id: ENV.fetch('WX_KEY_1'),
       secret: ENV.fetch('WX_SECRET_1'),
       mch_id: ENV.fetch('WX_mch_id_1'),
       key: ENV.fetch('WX_key_1'),
       cert_no: ENV.fetch('WX_cert_no_1'),
-      cert_pem: ENV.fetch('WX_cert_pem_1'),
-      private_key: ENV.fetch('WX_private_key_1'),
+      cert_pem: File.read( ENV.fetch('WX_cert_pem_1')),
+      private_key: File.read(ENV.fetch('WX_private_key_1')),
       v3_key: ENV.fetch('WX_v3_key_1')
-    ).pay3
+    )
+
+  end
+
+  let(:openid) do
+    'oLAujs8Ll_vjCpFfnBkRITqiBOhc'
+  end
+
+  let(:wxpay) do
+    client.pay3
+  end
+
+  it 'can send money to me' do
+    client.pension_to(openid, {ip: '106.15.187.220'})
   end
 
   # it 'have api v3 key' do
