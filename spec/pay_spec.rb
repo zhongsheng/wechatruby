@@ -26,7 +26,15 @@ RSpec.describe Wechatruby do
   end
 
   it 'can send money to me' do
-    client.pension_to(openid, {ip: '106.15.187.220'})
+    client.red_pack_to(openid, {
+      send_name: 'Lefin',
+      total_amount: 101,
+      total_num: 1,
+      wishing: 'Thanks For your participation',
+      client_ip: '106.15.187.220',
+      act_name: 'Lefin Milk Reward',
+      remark: 'Good'
+                       })
   end
 
   # it 'have api v3 key' do

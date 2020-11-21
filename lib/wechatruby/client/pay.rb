@@ -3,22 +3,22 @@
 module Wechatruby::Client::Pay
   # 支付模块
 
-  def pension_to(openid, options)
+  def red_pack_to(openid, options)
     time_stamp = Time.now.to_i.to_s
     wx_params = {
       nonce_str: nonce_str, # 随机字符,不超过32位
       mch_billno: time_stamp,
       mch_id: @mch_id,
       wxappid: @id,
-      send_name: 'Lefin',
       re_openid: openid,
-      total_amount: 100,
-      total_num: 1,
-      wishing: 'Thanks',
-      client_ip: options[:ip].to_s,
-      act_name: 'Lefin Milk Reward',
-      remark: 'Good'
-    }
+      # send_name: 'Lefin',
+      # total_amount: 100,
+      # total_num: 1,
+      # wishing: 'Thanks',
+      # client_ip: nil,
+      # act_name: 'Lefin Milk Reward',
+      # remark: 'Good'
+    }.merge(options)
     wx_params[:sign] = sign_digest(wx_params)
     post_with_cert(wx_params)
   end
