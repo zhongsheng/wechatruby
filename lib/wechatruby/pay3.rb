@@ -77,7 +77,7 @@ module Wechatruby
 
     # 加密构造签名串
     def encrypt(str)
-      key = OpenSSL::PKey::RSA.new File.read @client.private_key
+      key = OpenSSL::PKey::RSA.new @client.private_key
       digest = OpenSSL::Digest::SHA256.new
       Base64.strict_encode64(key.sign(digest, str))
     end

@@ -26,6 +26,12 @@ RSpec.describe Wechatruby do
   end
 
   it 'can send money to me' do
+    result = client.pay_to_wallet(openid, {amount: 101, desc: 'test'})
+    pp result
+    expect(result).not_to be nil
+  end
+
+  it 'can send red pack to me' do
     client.red_pack_to(openid, {
       send_name: 'Lefin',
       total_amount: 101,

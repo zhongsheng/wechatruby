@@ -20,7 +20,22 @@ module Wechatruby::Client::Pay
       # remark: 'Good'
     }.merge(options)
     wx_params[:sign] = sign_digest(wx_params)
-    post_with_cert(wx_params)
+    post_with_cert('mmpaymkttransfers/sendredpack', wx_params)
+  end
+
+  def pay_to_wallet(openid, options)
+    time_stamp = Time.now.to_i.to_s
+    wx_params = {
+      nonce_str: nonce_str, # 随机字符,不超过32位
+      mchid: @mch_id,
+      mch_appid: @id,
+      openid: openid,
+      partner_trade_no: time_stamp + SecureRandom.hex(6),
+      check_name: 'NO_CHECK',
+      desc: '支付零钱'
+    }.merge(options)
+    wx_params[:sign] = sign_digest(wx_params)
+    post_with_cert('mmpaymkttransfers/promotion/transfers', wx_params)
   end
 
   # options: {:redirect_url :ip :fee }
@@ -119,9 +134,9 @@ module Wechatruby::Client::Pay
   end
 
   # https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
-  def post_with_cert(params)
+  def post_with_cert(action, params)
     xml = to_xml(params)
-    url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
+    url = 'https://api.mch.weixin.qq.com/' + action
     res = RestClient::Resource.new(
       url,
       :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(@cert_pem),
@@ -133,6 +148,6 @@ module Wechatruby::Client::Pay
 
   # 随机字符,不超过32位
   def nonce_str
-    Digest::MD5.hexdigest(Random.new_seed.to_s)
+    SecureRandom.hex
   end
 end
