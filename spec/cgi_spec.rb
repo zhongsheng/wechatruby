@@ -17,7 +17,8 @@ RSpec.describe Wechatruby do
   end
 
   it 'long url to short' do
-    url = 'http://www.baidu.com'
+    # url = 'http://www.baidu.com'
+    url = 'https://support.weixin.qq.com/cgi-bin/mmsupport-bin/showredpacket?receiveuri=n9wFihzaEaS&check_type=2#wechat_redirect'
     short_url = wechat.cgi.short_url(url)
     pp short_url
     expect(short_url).not_to be nil

@@ -7,7 +7,7 @@ module Wechatruby::Client::Pay
     time_stamp = Time.now.to_i.to_s
     wx_params = {
       nonce_str: nonce_str, # 随机字符,不超过32位
-      mch_billno: time_stamp,
+      mch_billno: time_stamp + SecureRandom.hex(8),
       mch_id: @mch_id,
       wxappid: @id,
       re_openid: openid,

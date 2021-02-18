@@ -32,7 +32,7 @@ RSpec.describe Wechatruby do
   end
 
   it 'can send red pack to me' do
-    client.red_pack_to(openid, {
+    2.times {client.red_pack_to(openid, {
       send_name: 'Lefin',
       total_amount: 101,
       total_num: 1,
@@ -40,7 +40,7 @@ RSpec.describe Wechatruby do
       client_ip: '106.15.187.220',
       act_name: 'Lefin Milk Reward',
       remark: 'Good'
-                       })
+                       })}
   end
 
   # it 'have api v3 key' do
@@ -48,7 +48,7 @@ RSpec.describe Wechatruby do
   # end
 
   # it 'have signed string' do
-  #   uri = URI('https://api.mch.weixin.qq.com/v3/certificates?hi=1')
+  #   uri = URI('https://api.mch.weixin.qq.com/v3/certificates?hi=1')}
   #   v = wxpay.sign_str(:get, uri)
   #   puts v
   #   expect(v).not_to be nil
