@@ -5,7 +5,6 @@ require 'base64'
 require 'digest'
 require 'securerandom'
 
-require 'open-uri'
 require 'net/http'
 require 'uri'
 require 'active_support/all'

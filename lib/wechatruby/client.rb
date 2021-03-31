@@ -5,6 +5,7 @@ module Wechatruby
     include Pay
     include MpApi
     attr_accessor :id, :secret, :mch_id, :key, :cert_no, :cert_pem, :private_key, :v3_key
+
     @@ip_list = nil
 
     TOKEN_FILE = '/tmp/wechat_token'
@@ -32,7 +33,7 @@ module Wechatruby
         return nil unless @token[app_id]
 
         @token[app_id]['access_token'] if @token[app_id]['expired_at'] > Time.now
-      end # token ending
+      end
 
       def clear_token
         @token = nil
@@ -112,9 +113,8 @@ module Wechatruby
         lang: 'zh_CN'
       }.to_query
       url = "https://api.weixin.qq.com/cgi-bin/user/info?#{query}"
-      open(url) do |resp|
-        JSON.parse(resp.read)
-      end
+      resp = RestClient.get(url, accept: :json)
+      JSON.parse resp.body
     end
 
     # scope : snsapi_base
@@ -136,18 +136,15 @@ module Wechatruby
         lang: 'zh_CN'
       }.to_query
       url = "https://api.weixin.qq.com/sns/userinfo?#{query}"
-      open(url) do |resp|
-        JSON.parse(resp.read)
-      end
+      resp = RestClient.get(url, accept: :json)
+      JSON.parse resp.body
     end
 
     # 用于小程序端获取openid
     def get_session_by(code)
       wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{id}&secret=#{secret}&js_code=#{code}&grant_type=authorization_code"
-
-      open(wx_url) do |resp|
-        JSON.parse(resp.read)
-      end
+      resp = RestClient.get(url, accept: :json)
+      JSON.parse resp.body
     end
 
     private
@@ -173,11 +170,9 @@ module Wechatruby
         code: code,
         grant_type: 'authorization_code'
       }.to_query
-      wx_url = "https://api.weixin.qq.com/sns/oauth2/access_token?#{query}"
-
-      open(wx_url) do |resp|
-        JSON.parse(resp.read)
-      end
+      url = "https://api.weixin.qq.com/sns/oauth2/access_token?#{query}"
+      resp = RestClient.get(url, accept: :json)
+      JSON.parse resp.body
     end
     @token = read_token
   end

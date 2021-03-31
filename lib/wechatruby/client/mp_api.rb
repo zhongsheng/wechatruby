@@ -55,10 +55,9 @@ module Wechatruby::Client::MpApi
       grant_type: 'client_credential'
     }.to_query
     wx_url = "https://api.weixin.qq.com/cgi-bin/token?#{query}"
+    resp = RestClient.get(wx_url, accept: :json)
+    result = JSON.parse resp.body
 
-    result = open(wx_url) do |resp|
-      JSON.parse(resp.read)
-    end
     raise 'Cant get access_token' unless result['access_token']
 
     ::Wechatruby::Client.token(id, result)
@@ -73,13 +72,10 @@ module Wechatruby::Client::MpApi
   # }
   def jsapi_ticket(token)
     wx_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=#{token}&type=jsapi"
-
-    result = open(wx_url) do |resp|
-      JSON.parse(resp.read)
-    end
+    resp = RestClient.get(wx_url, accept: :json)
+    result = JSON.parse resp.body
     raise Wechatruby::TicketError, result['errmsg'] if result['errcode'] != 0
 
-    pp result
     result['ticket']
   end
 
