@@ -45,12 +45,4 @@ module Wechatruby
     JSON.parse(aes.update(aes_cipher) + aes.final)
   end
 
-  # TODO: 小程序会话使用
-  # def self.session(code)
-  #   wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{APP[:id]}&secret=#{APP[:secret]}&js_code=#{code}&grant_type=authorization_code"
-
-  #   open(wx_url) do |resp|
-  #     JSON.parse(resp.read)
-  #   end
-  # end
 end

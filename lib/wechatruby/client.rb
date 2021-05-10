@@ -142,7 +142,7 @@ module Wechatruby
 
     # 用于小程序端获取openid
     def get_session_by(code)
-      wx_url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{id}&secret=#{secret}&js_code=#{code}&grant_type=authorization_code"
+      url = "https://api.weixin.qq.com/sns/jscode2session?appid=#{id}&secret=#{secret}&js_code=#{code}&grant_type=authorization_code"
       resp = RestClient.get(url, accept: :json)
       JSON.parse resp.body
     end
