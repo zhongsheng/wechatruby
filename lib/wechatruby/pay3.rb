@@ -17,7 +17,7 @@ module Wechatruby
         out_trade_no: order_id,
         description: desc,
         notify_url: notify_url,
-        amount: { total: total.to_f * 100, currency: 'CNY' },
+        amount: { total: (total.to_f * 100).to_i, currency: 'CNY' },
         payer: { openid: openid }
       }.to_json
       refresh_nonce
