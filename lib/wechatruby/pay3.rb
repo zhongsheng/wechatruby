@@ -17,12 +17,25 @@ module Wechatruby
         out_trade_no: order_id,
         description: desc,
         notify_url: notify_url,
-        amount: { total: total.to_f * 100, currency: 'CNY'},
+        amount: { total: total.to_f * 100, currency: 'CNY' },
         payer: { openid: openid }
       }.to_json
       refresh_nonce
       res = post url, params
       res['prepay_id']
+    end
+
+    def mini_params(pay_id)
+      refresh_nonce
+      payload = {
+        timeStamp: @timestamp.to_s,
+        nonceStr: @nonce,
+        package: "prepay_id=#{pay_id}",
+        signType: 'RSA'
+      }
+      payload['paySign'] = pay_sign(payload)
+      pp payload
+      payload
     end
 
     # 发放代金券
@@ -64,6 +77,18 @@ module Wechatruby
     end
 
     private
+
+    def pay_sign(payload)
+      str = [
+        @client.id,
+        payload[:timeStamp],
+        payload[:nonceStr],
+        payload[:package] + "\n"
+      ].join("\n")
+      pp str
+      encrypt str
+    end
+
     def refresh_nonce
       @timestamp = Time.now.to_i
       @nonce = Digest::MD5.hexdigest(@timestamp.to_s).upcase
@@ -96,7 +121,7 @@ module Wechatruby
     # 加密构造签名串
     def encrypt(str)
       key = OpenSSL::PKey::RSA.new @client.private_key
-      digest = OpenSSL::Digest::SHA256.new
+      digest = OpenSSL::Digest.new('SHA256')
       Base64.strict_encode64(key.sign(digest, str))
     end
 

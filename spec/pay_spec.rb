@@ -43,6 +43,17 @@ RSpec.describe Wechatruby do
     expect(p_id).not_to be nil
   end
 
+  it 'can get min program params' do
+    p_id = wxpay.prepay_id(
+      order_id: SecureRandom.uuid.split('-').join,
+      openid: openid,
+      desc: 'test',
+      notify_url: 'http://nat.dzunion.cn',
+      total: 1
+    )
+    expect(wxpay.mini_params(p_id)).not_to be nil
+  end
+
   it 'can send red pack to me' do
     2.times {client.red_pack_to(openid, {
       send_name: 'Lefin',
