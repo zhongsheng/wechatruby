@@ -31,6 +31,18 @@ RSpec.describe Wechatruby do
     expect(result).not_to be nil
   end
 
+  it 'can get prepay_id' do
+    p_id = wxpay.prepay_id(
+      order_id: SecureRandom.uuid.split('-').join,
+      openid: openid,
+      desc: 'test',
+      notify_url: 'http://nat.dzunion.cn',
+      total: 1
+    )
+    pp p_id
+    expect(p_id).not_to be nil
+  end
+
   it 'can send red pack to me' do
     2.times {client.red_pack_to(openid, {
       send_name: 'Lefin',

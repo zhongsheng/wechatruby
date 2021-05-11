@@ -8,6 +8,23 @@ module Wechatruby
       @client = client
     end
 
+    def prepay_id(order_id:, desc:, notify_url:, total:, openid:)
+      url = V3_PATH + '/pay/transactions/jsapi'
+
+      params = {
+        appid: @client.id,
+        mchid: @client.mch_id,
+        out_trade_no: order_id,
+        description: desc,
+        notify_url: notify_url,
+        amount: { total: total.to_f * 100, currency: 'CNY'},
+        payer: { openid: openid }
+      }.to_json
+      refresh_nonce
+      res = post url, params
+      res['prepay_id']
+    end
+
     # 发放代金券
     #  options = {
     #  stock_id: '代金券批次号', # 必填
@@ -18,8 +35,7 @@ module Wechatruby
     #
     def deliver_coupon_to(openid, options = {})
       url = "#{V3_PATH}/marketing/favor/users/#{openid}/coupons"
-      @timestamp = Time.now.to_i
-      @nonce = Digest::MD5.hexdigest(@timestamp.to_s).upcase
+      refresh_nonce
       params = {
         out_request_no: SecureRandom.uuid,
         appid: @client.id,
@@ -35,8 +51,7 @@ module Wechatruby
         "?available_mchid=#{@client.mch_id}&",
         "appid=#{@client.id}"
       ].join
-      @timestamp = Time.now.to_i
-      @nonce = Digest::MD5.hexdigest(@timestamp.to_s).upcase
+      refresh_nonce
       query url
     end
 
@@ -44,12 +59,15 @@ module Wechatruby
     # https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/marketing/convention/chapter3_5.shtml
     def coupon_info_at(stock_id)
       url = "#{V3_PATH}/marketing/favor/stocks/#{stock_id}?stock_creator_mchid=#{@client.mch_id}"
-      @timestamp = Time.now.to_i
-      @nonce = Digest::MD5.hexdigest(@timestamp.to_s).upcase
+      refresh_nonce
       query url
     end
 
     private
+    def refresh_nonce
+      @timestamp = Time.now.to_i
+      @nonce = Digest::MD5.hexdigest(@timestamp.to_s).upcase
+    end
 
     def post(url, payload)
       encrypted_data = encrypt sign_str(:post, url, payload)
