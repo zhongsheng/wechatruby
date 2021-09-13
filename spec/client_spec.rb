@@ -39,6 +39,18 @@ RSpec.describe Wechatruby do
     expect(result).not_to be nil
   end
 
+  it 'can preview text messge' do
+    msg = <<MSG
+测试
+测试
+<b>hi<b>
+MSG
+    result = wechat.messages.preview_text_to_mass('chronosong', msg)
+
+    pp result
+    expect(result['errcode']).to be 0
+  end
+
   it 'can send template messages' do
     params =
       {

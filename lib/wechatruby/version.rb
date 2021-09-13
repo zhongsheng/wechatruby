@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Wechatruby
-  VERSION = '0.6.8'
+  VERSION = '0.7.8'
 end
